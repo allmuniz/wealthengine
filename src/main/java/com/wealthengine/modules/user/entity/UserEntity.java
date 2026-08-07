@@ -1,5 +1,6 @@
 package com.wealthengine.modules.user.entity;
 
+import com.wealthengine.modules.user.dto.UserCreateRequestDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -38,6 +39,12 @@ public class UserEntity {
 
     @Column(name = "updated_at")
     private OffsetDateTime updatedAt;
+
+    public UserEntity(UserCreateRequestDTO dto, String password) {
+        this.name = dto.name();
+        this.email = dto.email();
+        this.password = password;
+    }
 
     @PrePersist
     public void prePersist() {

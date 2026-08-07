@@ -36,6 +36,10 @@ public class Account {
     @Column(name = "updated_at")
     private OffsetDateTime updatedAt;
 
+    public Account(UserEntity user) {
+        this.user = user;
+    }
+
     @PrePersist
     public void prePersist() {
         createdAt = OffsetDateTime.now();
