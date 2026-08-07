@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Getter
 @Setter
@@ -35,17 +35,23 @@ public class AccountTransaction {
     private String description;
 
     /**
-     * Id da entidade que originou a movimentação.
-     * Ex.: Order, Deposit, Withdrawal...
+     * Entidade que originou a movimentação.
+     * Exemplo:
+     * Type: ORDER
+     * Order.id = 150
      */
+    @Column(name = "reference_type", length = 50)
+    private String referenceType;
+
     @Column(name = "reference_id")
     private Long referenceId;
 
     @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    private OffsetDateTime createdAt;
 
     @PrePersist
     public void prePersist() {
-        createdAt = LocalDateTime.now();
+        createdAt = OffsetDateTime.now();
     }
+
 }
