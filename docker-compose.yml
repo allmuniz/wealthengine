@@ -1,0 +1,47 @@
+services:
+
+  postgres:
+    image: postgres:17
+    container_name: wealthengine-postgres
+    restart: always
+
+    environment:
+      POSTGRES_DB: wealthengine
+      POSTGRES_USER: wealthengine
+      POSTGRES_PASSWORD: wealthengine123
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    networks:
+      - wealthengine-network
+
+
+  api:
+    build: .
+    container_name: wealthengine-api
+
+    depends_on:
+      - postgres
+
+    ports:
+      - "8080:8080"
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/wealthengine
+      SPRING_DATASOURCE_USERNAME: wealthengine
+      SPRING_DATASOURCE_PASSWORD: wealthengine123
+
+    networks:
+      - wealthengine-network
+
+
+volumes:
+  postgres_data:
+
+
+networks:
+  wealthengine-network:
